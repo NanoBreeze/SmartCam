@@ -1,0 +1,2 @@
+bdinfo.c:19:13:print_num	0	static
+bdinfo.c:303:12:do_bdinfo	8	static

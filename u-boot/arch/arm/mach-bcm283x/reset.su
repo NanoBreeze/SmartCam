@@ -1,0 +1,5 @@
+reset.c:33:1:__reset_cpu.constprop	0	static
+reset.c:61:27:efi_reset_system	8	static
+reset.c:28:6:hw_watchdog_disable	0	static
+reset.c:51:6:reset_cpu	8	static
+reset.c:88:14:efi_reset_system_init	8	static

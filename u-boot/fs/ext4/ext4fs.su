@@ -1,0 +1,13 @@
+ext4fs.c:33:24:get_fs	0	static
+ext4fs.c:38:6:ext4fs_free_node	0	static
+ext4fs.c:183:5:ext4fs_ls	24	static
+ext4fs.c:206:5:ext4fs_exists	16	static
+ext4fs.c:215:5:ext4fs_size	0	static
+ext4fs.c:228:5:ext4fs_probe	8	static
+ext4fs.c:259:5:ext4fs_uuid	8	static
+ext4fs.c:274:6:ext_cache_init	0	static
+ext4fs.c:279:6:ext_cache_fini	8	static
+ext4fs.c:49:5:ext4fs_read_file	136	static
+ext4fs.c:220:5:ext4fs_read	32	static
+ext4fs.c:241:5:ext4_read_file	56	static
+ext4fs.c:285:5:ext_cache_read	24	static

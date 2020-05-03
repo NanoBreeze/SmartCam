@@ -1,0 +1,6 @@
+rpi.c:255:5:dram_init	136	static
+rpi.c:316:15:board_get_usable_ram_top	0	static
+rpi.c:392:5:misc_init_r	176	static
+rpi.c:458:5:board_init	144	static
+rpi.c:474:7:board_fdt_blob_setup	0	static
+rpi.c:481:5:ft_board_setup	16	static

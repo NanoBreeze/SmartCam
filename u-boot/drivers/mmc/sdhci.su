@@ -1,0 +1,10 @@
+sdhci.c:20:13:sdhci_reset	16	static
+sdhci.c:661:12:sdhci_deferred_probe	8	static
+sdhci.c:675:12:sdhci_get_cd	16	static
+sdhci.c:237:12:sdhci_send_command	48	static
+sdhci.c:402:5:sdhci_set_clock	32	static
+sdhci.c:555:12:sdhci_set_ios	16	static
+sdhci.c:526:6:sdhci_set_uhs_timing	16	static
+sdhci.c:654:5:sdhci_probe	24	static
+sdhci.c:722:5:sdhci_setup_cfg	40	static
+sdhci.c:873:5:sdhci_bind	0	static

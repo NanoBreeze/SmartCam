@@ -1,0 +1,6 @@
+serial_pl01x.c:275:5:pl01x_serial_setbrg	16	static
+serial_pl01x.c:288:5:pl01x_serial_probe	16	static
+serial_pl01x.c:301:5:pl01x_serial_getc	8	static
+serial_pl01x.c:308:5:pl01x_serial_putc	8	static
+serial_pl01x.c:315:5:pl01x_serial_pending	8	static
+serial_pl01x.c:340:5:pl01x_serial_ofdata_to_platdata	16	static

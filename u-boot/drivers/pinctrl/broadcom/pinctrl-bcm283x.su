@@ -1,0 +1,3 @@
+pinctrl-bcm283x.c:62:5:bcm283x_pinctrl_set_state	112	static
+pinctrl-bcm283x.c:91:12:bcm283x_pinctrl_get_gpio_mux	8	static
+pinctrl-bcm283x.c:106:5:bcm283x_pinctl_probe	32	static

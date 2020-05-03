@@ -1,0 +1,1 @@
+cmd_arch/arm/mach-bcm283x/built-in.o :=  armv8-rpi3-linux-gnueabihf-ld.bfd     -r -o arch/arm/mach-bcm283x/built-in.o arch/arm/mach-bcm283x/init.o arch/arm/mach-bcm283x/reset.o arch/arm/mach-bcm283x/mbox.o arch/arm/mach-bcm283x/msg.o arch/arm/mach-bcm283x/phys2bus.o 

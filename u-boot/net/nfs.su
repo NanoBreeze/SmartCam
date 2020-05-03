@@ -1,0 +1,17 @@
+nfs.c:435:12:rpc_lookup_reply	1160	static
+nfs.c:465:12:nfs_mount_reply	1160	static
+nfs.c:491:12:nfs_umountall_reply	1160	static
+nfs.c:515:12:nfs_lookup_reply	1168	static
+nfs.c:616:12:nfs_readlink_reply	1176	static
+nfs.c:119:14:basename	8	static
+nfs.c:666:12:nfs_read_reply	1168	static
+nfs.c:177:13:rpc_req	1176	static
+nfs.c:363:13:nfs_read_req	4128	static
+nfs.c:294:13:nfs_readlink_req	4112	static
+nfs.c:243:13:nfs_mount_req	4120	static
+nfs.c:269:13:nfs_umountall_req	4104	static
+nfs.c:320:13:nfs_lookup_req	4136	static
+nfs.c:396:13:nfs_send	72	static
+nfs.c:741:13:nfs_handler	16	static
+nfs.c:727:13:nfs_timeout_handler	8	static
+nfs.c:865:6:nfs_start	32	static

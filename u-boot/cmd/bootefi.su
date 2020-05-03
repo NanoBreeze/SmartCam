@@ -1,0 +1,6 @@
+bootefi.c:152:13:efi_reserve_memory	32	static
+bootefi.c:327:21:do_bootefi_exec	56	static
+bootefi.c:246:14:efi_install_fdt	344	static
+bootefi.c:444:14:efi_run_image	40	static
+bootefi.c:601:12:do_bootefi	24	static
+bootefi.c:680:6:efi_set_bootdev	48	static

@@ -1,0 +1,2 @@
+mbox.c:15:5:bcm2835_mbox_call_raw	32	static
+mbox.c:103:5:bcm2835_mbox_call_prop	24	static

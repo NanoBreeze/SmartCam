@@ -1,0 +1,2 @@
+phys2bus.c:9:15:phys_to_bus	0	static
+phys2bus.c:18:15:bus_to_phys	0	static

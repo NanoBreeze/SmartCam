@@ -1,0 +1,3 @@
+lcd_simplefb.c:18:12:lcd_dt_simplefb_configure_node	40	static
+lcd_simplefb.c:60:5:lcd_dt_simplefb_add_node	24	static
+lcd_simplefb.c:81:5:lcd_dt_simplefb_enable_existing_node	8	static

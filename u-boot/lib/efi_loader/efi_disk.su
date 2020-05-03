@@ -1,0 +1,8 @@
+efi_disk.c:258:28:efi_disk_flush_blocks	8	static
+efi_disk.c:62:28:efi_disk_reset	8	static
+efi_disk.c:348:21:efi_disk_add_dev.isra.0.part.0	152	static
+efi_disk.c:128:28:efi_disk_read_blocks	40	static
+efi_disk.c:193:28:efi_disk_write_blocks	40	static
+efi_disk.c:284:1:efi_fs_from_path	24	static
+efi_disk.c:456:5:efi_disk_create_partitions	216	static
+efi_disk.c:506:14:efi_disk_register	56	static
