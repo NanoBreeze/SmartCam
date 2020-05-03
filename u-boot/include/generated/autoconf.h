@@ -139,7 +139,7 @@
 #define CONFIG_ISO_PARTITION 1
 #define CONFIG_SYS_MALLOC_CLEAR_ON_INIT 1
 #define CONFIG_MMC_SDHCI_BCM2835 1
-#define CONFIG_BOOTDELAY 2
+#define CONFIG_BOOTDELAY 5
 #define CONFIG_CMD_IMI 1
 #define CONFIG_SYS_HZ 1000
 #define CONFIG_EFI_UNICODE_COLLATION_PROTOCOL2 1
@@ -162,7 +162,7 @@
 #define CONFIG_CONSOLE_SCROLL_LINES 10
 #define CONFIG_LOCALVERSION ""
 #define CONFIG_CMDLINE 1
-#define CONFIG_BOOTCOMMAND "run distro_bootcmd"
+#define CONFIG_BOOTCOMMAND "fatload mmc 0:1 ${kernel_addr_r} kernel7.img; fatload mmc 0:1 0x2000000 bcm2710-rpi-3-b.dtb; setenv bootargs 8250.nr_uarts=1 root=/dev/mmcblk0p2 rootwait console=ttyS0,115200; bootz ${kernel_addr_r} - 0x2000000"
 #define CONFIG_CMD_LOADB 1
 #define CONFIG_CMD_RUN 1
 #define CONFIG_CMD_PINMUX 1
