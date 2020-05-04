@@ -206,6 +206,7 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"dhcpuboot=usb start; dhcp u-boot.uimg; bootm\0" \
+	"bootcmd_sd=fatload mmc 0:1 ${kernel_addr_r} kernel7.img; fatload mmc 0:1 0x2000000 bcm2710-rpi-3-b.dtb; setenv bootargs 8250.nr_uarts=1 root=/dev/mmcblk0p2 rootwait console=ttyS0,115200; bootz ${kernel_addr_r} - 0x2000000\0" \
 	ENV_DEVICE_SETTINGS \
 	ENV_DFU_SETTINGS \
 	ENV_MEM_LAYOUT_SETTINGS \
