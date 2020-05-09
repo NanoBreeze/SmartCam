@@ -39,7 +39,7 @@ static const char bbconfig_config[] ALIGN1 =
 "CONFIG_FEATURE_SYSLOG_INFO=y\n"
 "CONFIG_FEATURE_SYSLOG=y\n"
 "CONFIG_PLATFORM_LINUX=y\n"
-"# CONFIG_STATIC is not set\n"
+"CONFIG_STATIC=y\n"
 "# CONFIG_PIE is not set\n"
 "# CONFIG_NOMMU is not set\n"
 "# CONFIG_BUILD_LIBBUSYBOX is not set\n"
