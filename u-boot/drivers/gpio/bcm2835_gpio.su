@@ -1,7 +1,0 @@
-bcm2835_gpio.c:65:12:bcm2835_gpio_set_value	16	static
-bcm2835_gpio.c:20:12:bcm2835_gpio_direction_input	8	static
-bcm2835_gpio.c:77:12:bcm2835_gpio_get_function	8	static
-bcm2835_gpio.c:33:12:bcm2835_gpio_direction_output	16	static
-bcm2835_gpio.c:119:12:bcm2835_gpio_ofdata_to_platdata	16	static
-bcm2835_gpio.c:102:12:bcm2835_gpio_probe	16	static
-bcm2835_gpio.c:58:12:bcm2835_gpio_get_value	8	static

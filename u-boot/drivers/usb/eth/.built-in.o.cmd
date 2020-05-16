@@ -1,1 +1,0 @@
-cmd_drivers/usb/eth/built-in.o :=  armv8-rpi3-linux-gnueabihf-ld.bfd     -r -o drivers/usb/eth/built-in.o drivers/usb/eth/usb_ether.o drivers/usb/eth/smsc95xx.o drivers/usb/eth/lan7x.o drivers/usb/eth/lan78xx.o 

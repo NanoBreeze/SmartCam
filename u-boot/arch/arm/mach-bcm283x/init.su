@@ -1,3 +1,0 @@
-init.c:106:5:arch_cpu_init	8	static
-init.c:113:5:mach_cpu_init	32	static
-init.c:136:6:enable_caches	0	static

@@ -1,4 +1,0 @@
-msg.c:43:5:bcm2835_power_on_module	144	static
-msg.c:67:5:bcm2835_get_mmc_clock	144	static
-msg.c:89:5:bcm2835_get_video_size	152	static
-msg.c:108:5:bcm2835_set_video_params	280	static

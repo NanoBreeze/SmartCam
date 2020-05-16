@@ -1,2 +1,0 @@
-serial_bcm283x_pl011.c:58:12:bcm283x_pl011_serial_setbrg	16	static
-serial_bcm283x_pl011.c:36:12:bcm283x_pl011_serial_ofdata_to_platdata	24	static

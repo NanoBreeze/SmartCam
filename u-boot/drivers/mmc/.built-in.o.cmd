@@ -1,1 +1,0 @@
-cmd_drivers/mmc/built-in.o :=  armv8-rpi3-linux-gnueabihf-ld.bfd     -r -o drivers/mmc/built-in.o drivers/mmc/mmc.o drivers/mmc/mmc-uclass.o drivers/mmc/mmc_write.o drivers/mmc/sdhci.o drivers/mmc/bcm2835_sdhci.o drivers/mmc/bcm2835_sdhost.o 

@@ -1,6 +1,0 @@
-serial_bcm283x_mu.c:117:12:bcm283x_mu_serial_pending	8	static
-serial_bcm283x_mu.c:102:12:bcm283x_mu_serial_putc	8	static
-serial_bcm283x_mu.c:87:12:bcm283x_mu_serial_getc	8	static
-serial_bcm283x_mu.c:55:12:bcm283x_mu_serial_setbrg	24	static
-serial_bcm283x_mu.c:77:12:bcm283x_mu_serial_probe	16	static
-serial_bcm283x_mu.c:168:12:bcm283x_mu_serial_ofdata_to_platdata	24	static

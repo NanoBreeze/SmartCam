@@ -1,4 +1,0 @@
-simple_panel.c:83:12:simple_panel_probe	8	static
-simple_panel.c:35:12:simple_panel_set_backlight	16	static
-simple_panel.c:20:12:simple_panel_enable_backlight	8	static
-simple_panel.c:50:12:simple_panel_ofdata_to_platdata	24	static

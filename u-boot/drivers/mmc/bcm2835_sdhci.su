@@ -1,8 +1,0 @@
-bcm2835_sdhci.c:130:12:bcm2835_sdhci_readl	0	static
-bcm2835_sdhci.c:137:12:bcm2835_sdhci_readw	0	static
-bcm2835_sdhci.c:147:11:bcm2835_sdhci_readb	0	static
-bcm2835_sdhci.c:173:12:bcm2835_sdhci_probe	32	static
-bcm2835_sdhci.c:98:13:bcm2835_sdhci_writel	16	static
-bcm2835_sdhci.c:103:13:bcm2835_sdhci_writew	16	static
-bcm2835_sdhci.c:119:13:bcm2835_sdhci_writeb	16	static
-bcm2835_sdhci.c:166:12:bcm2835_sdhci_bind	8	static

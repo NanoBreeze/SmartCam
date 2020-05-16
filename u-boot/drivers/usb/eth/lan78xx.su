@@ -1,6 +1,0 @@
-lan78xx.c:303:5:lan78xx_write_hwaddr	24	static
-lan78xx.c:74:12:lan78xx_read_raw_otp	40	static
-lan78xx.c:335:12:lan78xx_eth_start	40	static
-lan78xx.c:199:12:lan78xx_read_mac.isra.0	32	static
-lan78xx.c:407:5:lan78xx_read_rom_hwaddr	16	static
-lan78xx.c:421:12:lan78xx_eth_probe	32	static

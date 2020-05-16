@@ -1,3 +1,0 @@
-gpio.c:38:13:gpio_get_description	104	static
-gpio.c:120:12:do_gpio	56	static
-gpio.c:17:12:name_to_gpio	0	static
