@@ -1,5 +1,11 @@
 #!/bin/sh
 
+rescue_shell() {
+    echo "Something went wrong. Dropping to a shell."
+    exec sh
+}
+
+
 # Default PATH differs between shells, and is not automatically exported
 # by klibc dash.  Make it consistent.
 export PATH=/sbin:/usr/sbin:/bin:/usr/bin
@@ -12,22 +18,35 @@ export PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 mkdir -p /var/lock
 
-echo "About to mount\n"
 
+echo "Mounting /proc...\n"
 mount -t proc none /proc
+echo "...Done\n"
+
+echo "Mounting /sys...\n"
 mount -t sysfs none /sys
+echo "...Done\n"
+
+echo "Mounting /dev...\n"
 mount -t devtmpfs none /dev
+echo "...Done\n"
 
+echo "Sleeping for 5s to let other things finish loading"
+sleep 5
 
-echo "Hello from myinitramfs, this was packaged on HyperV\n"
+echo "About to bring up ethernet interface\n"
+ifconfig eth0 hw ether B8:27:EB:36:2A:02 || rescue_shell
+ifconfig eth0 10.88.111.15 netmask 255.255.255.0 broadcast 10.88.111.255 || rescue_shell
+ifconfig eth0 up || rescue_shell
 
-exec sh
+#exec sh
 
 mkdir /newroot
-mount /dev/mmcblk0p2 /newroot
+#mount /dev/mmcblk0p2 /newroot
+mount -t nfs -o nolock 10.88.111.18:/home/ubuntu/Desktop/nfs_root /newroot || rescue_shell
 
-mount --move /sys /newroot/sys
-mount --move /proc /newroot/proc
-mount --move /dev /newroot/dev
+mount --move /sys /newroot/sys || rescue_shell
+mount --move /proc /newroot/proc || rescue_shell
+mount --move /dev /newroot/dev || rescue_shell
 
 exec switch_root /newroot /sbin/init
