@@ -3,3 +3,13 @@ experiments/
 #Ignore vim temporary files
 *.swp
 *.swo
+
+#Ignore initramfs and uboot files placed in top directory since that's the default install place
+/initramfs.cpio.gz
+/initramfs.cpio.gz.uImage
+/u-boot.bin
+
+#BusyBox generated files	
+busybox-1.31.1/_install/
+busybox-1.31.1/docs/busybox.1
+busybox-1.31.1/include/autoconf.h

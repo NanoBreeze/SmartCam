@@ -211,6 +211,7 @@
 	"loadFdt=dhcp; tftp 0x2000000 ${serverip}:bcm2710-rpi-3-b.dtb;\0" \
 	"loadInitramfs=dhcp; tftp ${ramdisk_addr_r} ${serverip}:initramfs.uImage;\0" \
        	"loadEnv=setenv bootargs 8250.nr_uarts=1 root=/dev/mmcblk0p2 rootwait console=ttyS0,115200;\0" \
+       	"loadEnv2=setenv bootargs 8250.nr_uarts=1 rootwait console=ttyS0,115200;\0" \
         "doBoot=bootz ${kernel_addr_r} - 0x2000000\0" \
         "doBoot2=bootz ${kernel_addr_r} ${ramdisk_addr_r} 0x2000000\0" \
 	ENV_DEVICE_SETTINGS \

@@ -1,0 +1,13 @@
+# Default build environment setup for smartcam
+# Source this file from .bashrc 
+
+#--------- Exported variables ---------
+export BUILD_ROOT=~/Desktop/smartcam
+export CROSS_COMPILE=armv8-rpi3-linux-gnueabihf-
+export ARCH=arm
+export PATH=${PATH}:${BUILD_ROOT}/tools/armv8-rpi3-linux-gnueabihf/bin
+
+
+
+#--------- Aliases --------- 
+alias sc='cd ${BUILD_ROOT}'
