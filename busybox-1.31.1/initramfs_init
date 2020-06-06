@@ -35,8 +35,10 @@ echo "Sleeping for 5s to let other things finish loading"
 sleep 5
 
 echo "About to bring up ethernet interface\n"
+#exec sh
 ifconfig eth0 hw ether B8:27:EB:36:2A:02 || rescue_shell
-ifconfig eth0 10.88.111.15 netmask 255.255.255.0 broadcast 10.88.111.255 || rescue_shell
+udhcpc -i eth0 -v || rescue_shell
+#ifconfig eth0 10.88.111.15 netmask 255.255.255.0 broadcast 10.88.111.255 || rescue_shell
 ifconfig eth0 up || rescue_shell
 
 #exec sh

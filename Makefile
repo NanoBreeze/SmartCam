@@ -35,7 +35,7 @@ INITRAMFS_CLEAN:
 INITRAMFS_INSTALL:
 	@echo "\n----------Installing initramfs from BusyBox ----------"
 	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j6 -C busybox-1.31.1/ install
-	cp busybox-1.31.1/initramfs_init busybox-1.31.1/_install/init
+	cd busybox-1.31.1 && ./populate_initramfs.sh
 	cd busybox-1.31.1/_install && find . -print0 | cpio --null --create --verbose --format=newc | gzip --best > ../../initramfs.cpio.gz
 	mkimage -A arm -O linux -T ramdisk -C gzip -d initramfs.cpio.gz initramfs.cpio.gz.uImage
 	
