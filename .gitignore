@@ -11,5 +11,9 @@ experiments/
 
 #BusyBox generated files	
 busybox-1.31.1/_install/
+busybox-1.31.1/install_rootfs/
 busybox-1.31.1/docs/busybox.1
 busybox-1.31.1/include/autoconf.h
+
+#rootfs/
+rootfs/*

@@ -38,4 +38,19 @@ INITRAMFS_INSTALL:
 	cd busybox-1.31.1 && ./populate_initramfs.sh
 	cd busybox-1.31.1/_install && find . -print0 | cpio --null --create --verbose --format=newc | gzip --best > ../../initramfs.cpio.gz
 	mkimage -A arm -O linux -T ramdisk -C gzip -d initramfs.cpio.gz initramfs.cpio.gz.uImage
-	
+
+ROOTFS: 
+	@echo "\n---------- Creating components needed for rootfs ----------"
+	\cp tools/.busybox_config_rootfs busybox-1.31.1/.config
+	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j6 -C busybox-1.31.1/ 
+	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j6 -C busybox-1.31.1/ install
+
+ROOTFS_INSTALL:
+	@echo "\n---------- Installing files into rootfs ----------"
+	\cp -r busybox-1.31.1/install_rootfs/* rootfs/
+	rsync -a --ignore-existing tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot/ rootfs/ #I suppose we could also use cp, but I was curious how to use rsync --ignore-existing may not actually be needed
+	-mkdir rootfs/dev rootfs/proc rootfs/sys rootfs/boot
+
+ROOTFS_CLEAN:
+	@echo "\n---------- Removing all files from rootfs ----------"
+	-rm -rf rootfs/*
