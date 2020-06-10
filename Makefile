@@ -42,11 +42,8 @@ ROOTFS:
 	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j6 -C busybox-1.31.1/ 
 	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j6 -C busybox-1.31.1/ install
 	@echo "\n---------- Assembling files into rootfs ----------"
-	\cp -r busybox-1.31.1/install_rootfs/* rootfs/
-	rsync -a --ignore-existing tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot/ rootfs/ #I suppose we could also use cp, but I was curious how to use rsync --ignore-existing may not actually be needed
-	-mkdir rootfs/dev rootfs/proc rootfs/sys rootfs/boot
-	-mkdir -p rootfs/usr/share/udhcpc
-	\cp scripts/udhcpc_scripts/* rootfs/usr/share/udhcpc/ 
+	cd scripts && ./assemble_rootfs.sh
+
 
 ROOTFS_CLEAN:
 	@echo "\n---------- Removing all files and dirs related to assembling rootfs ----------"
