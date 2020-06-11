@@ -17,3 +17,15 @@ mount devpts /dev/pts -t devpts || true
 [ -d /root ] || mkdir /root
 echo root:x:0:0:root:/root:/bin/sh > /etc/passwd
 echo root:root | chpasswd
+
+# Run syslogd running
+[ -d /var/log ] || mkdir -p /var/log # /var/log/messages is where syslogd stores its messages
+syslogd
+
+# Run telnetd
+telnetd
+
+# Run dropbear
+[ -d /etc/dropbear ] || mkdir -p /etc/dropbear
+[ -f /etc/dropbear/dropbear_banner.txt ] || echo "Welcome to smartcam!" >> /etc/dropbear/dropbear_banner.txt #Create default banner
+dropbear -R -b /etc/dropbear/dropbear_banner.txt
