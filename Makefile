@@ -14,7 +14,7 @@ UBOOT:
 
 UBOOT_CLEAN:
 	@echo "\n----------Cleaning u-boot----------"
-	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -C u-boot/ clean
+	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -C u-boot/ distclean
 
 
 
@@ -31,7 +31,7 @@ INITRAMFS:
 INITRAMFS_CLEAN:
 	@echo "\n----------Cleaning initramfs from BusyBox----------"
 	-rm -rf busybox-1.31.1/install_initramfs
-	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -C busybox-1.31.1/ clean
+	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -C busybox-1.31.1/ distclean
 
 
 
@@ -47,7 +47,7 @@ ROOTFS_CLEAN:
 	@echo "\n---------- Removing all files and dirs related to assembling rootfs ----------"
 	-rm -rf rootfs/*
 	-rm -rf busybox-1.31.1/install_rootfs
-	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -C busybox-1.31.1/ clean
+	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -C busybox-1.31.1/ distclean
 
 
 
