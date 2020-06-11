@@ -1,4 +1,19 @@
 #!/bin/sh
-echo "Hello world!!!"
-ls
 
+# Set up filesystems
+[ -d /dev ] || mkdir -m 0755 /dev
+mount -t devtmpfs none /dev || true
+
+[ -d /sys ] || mkdir /sys 
+mount -t sysfs none /sys || true
+
+[ -d /proc ] || mkdir /proc
+mount -t proc none /proc || true
+
+[ -d /dev/pts ] || mkdir /dev/pts
+mount devpts /dev/pts -t devpts || true
+
+# Create root user, passwd and username are both root. Its home directory is /root
+[ -d /root ] || mkdir /root
+echo root:x:0:0:root:/root:/bin/sh > /etc/passwd
+echo root:root | chpasswd
