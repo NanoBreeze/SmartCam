@@ -14,3 +14,8 @@ cp -r ../scripts/udhcpc_scripts/ ${ROOTFS}/usr/share/udhcpc/ || true
 
 cp ../scripts/inittab ${ROOTFS}/etc || true
 
+# Copy dropbear bins
+cp -r ../dropbear-2019.78/sbin/* ${ROOTFS}/sbin/
+cp -r ../dropbear-2019.78/bin/* ${ROOTFS}/bin/
+cp -r ../scripts/dropbear ${ROOTFS}/etc/
+
