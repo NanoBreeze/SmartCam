@@ -29,3 +29,6 @@ telnetd
 [ -d /etc/dropbear ] || mkdir -p /etc/dropbear
 [ -f /etc/dropbear/dropbear_banner.txt ] || echo "Welcome to smartcam!" >> /etc/dropbear/dropbear_banner.txt #Create default banner
 dropbear -R -b /etc/dropbear/dropbear_banner.txt
+
+# Add Google's DNS server to resolv.conf
+[ -f /etc/resolv.conf ] || echo nameserver 8.8.8.8 > /etc/resolv.conf
