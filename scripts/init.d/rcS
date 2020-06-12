@@ -32,3 +32,7 @@ dropbear -R -b /etc/dropbear/dropbear_banner.txt
 
 # Add Google's DNS server to resolv.conf
 [ -f /etc/resolv.conf ] || echo nameserver 8.8.8.8 > /etc/resolv.conf
+
+# Run ntpd and provide servers in config file if it doesn't exist
+[ -f /etc/ntp.conf ] || echo -e "server 0.ca.pool.ntp.org\nserver 1.ca.pool.ntp.org\nserver 2.ca.pool.ntp.org\nserver 3.ca.pool.ntp.org" > /etc/ntp.conf
+ntpd
