@@ -23,3 +23,8 @@ cp -r ../scripts/dropbear/ ${ROOTFS}/etc/
 cp -r ../bin/kernel_5.4.40_precompiled_modules/ ${ROOTFS}/lib/modules/
 cp -r ../bin/precompiled_firmware/ ${ROOTFS}/lib/firmware/
 cp -r ../bin/crda/ ${ROOTFS}/lib/
+
+# Copy libnl and iw
+cp -r ../libnl-3.2.25/install/sbin/* ${ROOTFS}/sbin/
+cp -r ../libnl-3.2.25/install/lib/* ${ROOTFS}/lib
+cp ../iw-5.4/iw ${ROOTFS}/sbin

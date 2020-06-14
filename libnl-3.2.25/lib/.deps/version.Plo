@@ -1,0 +1,7 @@
+version.lo: version.c \
+ /home/ubuntu/Desktop/smartcam/tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot/usr/include/stdc-predef.h \
+ ../include/netlink/version.h
+
+/home/ubuntu/Desktop/smartcam/tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot/usr/include/stdc-predef.h:
+
+../include/netlink/version.h:
