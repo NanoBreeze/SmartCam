@@ -6,7 +6,7 @@ ROOTFS=../rootfs/
 cp -r ../busybox-1.31.1/install_rootfs/* ${ROOTFS}
 rsync -a --ignore-existing ../tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot/ ${ROOTFS} #I suppose we could also use cp, but I was curious how to use rsync --ignore-existing may not actually be needed
 
-mkdir -p ${ROOTFS}/dev ${ROOTFS}/proc ${ROOTFS}/sys ${ROOTFS}/boot ${ROOTFS}/etc ${ROOTFS}/usr || true
+mkdir -p ${ROOTFS}/dev ${ROOTFS}/proc ${ROOTFS}/sys ${ROOTFS}/boot ${ROOTFS}/etc ${ROOTFS}/usr ${ROOTFS}/lib || true
 mkdir -p ${ROOTFS}/usr/share || true
 
 cp -r ../scripts/init.d ${ROOTFS}/etc/init.d || true
@@ -17,5 +17,9 @@ cp ../scripts/inittab ${ROOTFS}/etc || true
 # Copy dropbear bins
 cp -r ../dropbear-2019.78/sbin/* ${ROOTFS}/sbin/
 cp -r ../dropbear-2019.78/bin/* ${ROOTFS}/bin/
-cp -r ../scripts/dropbear ${ROOTFS}/etc/
+cp -r ../scripts/dropbear/ ${ROOTFS}/etc/
 
+# Copy pre-compiled modules and firmware stuff
+cp -r ../bin/kernel_5.4.40_precompiled_modules/ ${ROOTFS}/lib/modules/
+cp -r ../bin/precompiled_firmware/ ${ROOTFS}/lib/firmware/
+cp -r ../bin/crda/ ${ROOTFS}/lib/
