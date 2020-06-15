@@ -88,3 +88,15 @@ IW_CLEAN:
 	# We manually rm the files rather than calling make clean because the latter requires the libnl pkgconfig to exist, which won't exist if libnl was cleaned first
 
 
+
+OPENSSL:
+	@echo "\n---------- Building Openssl ----------"
+	cd openssl-1.1.1g && ./Configure ARCH=arm CROSS_COMPILE=${CROSS_COMPILE} linux-generic32 --prefix=`pwd`/install
+	$(MAKE) -C openssl-1.1.1g -j6
+	$(MAKE) -C openssl-1.1.1g install
+
+OPENSSL_CLEAN:
+	@echo "\n---------- Cleaning Openssl ----------"
+	-rm -rf openssl-1.1.1g/install
+	-$(MAKE) -C openssl-1.1.1g distclean
+
