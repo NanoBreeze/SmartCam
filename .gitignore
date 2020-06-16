@@ -16,3 +16,8 @@ busybox-1.31.1/applets/
 busybox-1.31.1/docs/
 busybox-1.31.1/include/
 
+openssl-1.1.1g/
+
+libnl-3.2.25/
+
+wpa_supplicant-2.9/
