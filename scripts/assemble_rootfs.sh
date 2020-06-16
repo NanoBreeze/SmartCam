@@ -5,6 +5,7 @@ ROOTFS=../rootfs/
 
 cp -r ../busybox-1.31.1/install_rootfs/* ${ROOTFS}
 rsync -a --ignore-existing ../tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot/ ${ROOTFS} #I suppose we could also use cp, but I was curious how to use rsync --ignore-existing may not actually be needed
+cp ../tools/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/debug-root/usr/bin/* ${ROOTFS}/bin
 
 mkdir -p ${ROOTFS}/dev ${ROOTFS}/proc ${ROOTFS}/sys ${ROOTFS}/boot ${ROOTFS}/etc ${ROOTFS}/usr ${ROOTFS}/lib || true
 mkdir -p ${ROOTFS}/usr/share || true
