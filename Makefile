@@ -35,7 +35,7 @@ INITRAMFS_CLEAN:
 
 
 
-ROOTFS: IW DROPBEAR
+ROOTFS: IW DROPBEAR WPA_SUPPLICANT
 	@echo "\n---------- Creating BusyBox components needed for rootfs ----------"
 	\cp scripts/.busybox_config_rootfs busybox-1.31.1/.config
 	$(MAKE) ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j6 -C busybox-1.31.1/ 
@@ -100,3 +100,17 @@ OPENSSL_CLEAN:
 	-rm -rf openssl-1.1.1g/install
 	-$(MAKE) -C openssl-1.1.1g distclean
 
+export OPENSSL_INCLUDE_PATH=${CURDIR}/openssl-1.1.1g/install/include
+export OPENSSL_LIB_PATH=${CURDIR}/openssl-1.1.1g/install/lib
+export LIBNL_INCLUDE_PATH=${CURDIR}/libnl-3.2.25/install/include
+export LIBNL_LIB_PATH=${CURDIR}/libnl-3.2.25/install/lib 
+
+
+WPA_SUPPLICANT: #OPENSSL LIBNL
+	@echo "\n---------- Building wpa_supplicant ----------"
+	\cp scripts/.wpa_supplicant_config wpa_supplicant-2.9/wpa_supplicant/.config
+	export PKG_CONFIG_PATH=${CURDIR}/libnl-3.2.25/install/lib/pkgconfig && $(MAKE) CC=${CROSS_COMPILE}gcc -C wpa_supplicant-2.9/wpa_supplicant -j6 
+
+WPA_SUPPLICANT_CLEAN:
+	@echo "\n---------- Cleaning wpa_supplicant ----------"
+	-$(MAKE) -C wpa_supplicant-2.9/wpa_supplicant clean
