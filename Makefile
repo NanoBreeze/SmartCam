@@ -51,11 +51,14 @@ ROOTFS_CLEAN:
 
 
 
-DROPBEAR:
-	@echo "\n---------- Configuring and building dropbear ----------"
-	cd dropbear-2019.78 && ./configure --host=armv8-rpi3-linux-gnueabihf --prefix=`pwd` --disable-zlib CC=${CROSS_COMPILE}gcc LD=${CROSS_COMPILE}ld
+DROPBEAR: DROPBEAR_CONFIGURE
+	@echo "\n---------- Building dropbear ----------"
 	$(MAKE) -C dropbear-2019.78 -j6 
 	$(MAKE) -C dropbear-2019.78 install
+
+DROPBEAR_CONFIGURE:
+	@echo "\n---------- Configuring dropbear ----------"
+	-[ ! -f dropbear-2019.78/Makefile ] && cd dropbear-2019.78 && ./configure --host=armv8-rpi3-linux-gnueabihf --prefix=`pwd` --disable-zlib CC=${CROSS_COMPILE}gcc LD=${CROSS_COMPILE}ld
 
 DROPBEAR_CLEAN:
 	@echo "\n---------- Cleaning dropbear folder ----------"
@@ -63,12 +66,14 @@ DROPBEAR_CLEAN:
 
 
 
-LIBNL:
+LIBNL: LIBNL_CONFIGURE
 	@echo "\n---------- Building libnl ----------"
-	cd libnl-3.2.25 && ./configure --host=armv8-rpi3-linux-gnueabihf --prefix=`pwd`/install 
 	$(MAKE) -C libnl-3.2.25 -j6
-	$(MAKE) -C libnl-3.2.25 install
-	$(MAKE) -C libnl-3.2.25/include install
+	-[ ! -d libnl-3.2.25/install ] && $(MAKE) -C libnl-3.2.25 install && $(MAKE) -C libnl-3.2.25/include install
+
+LIBNL_CONFIGURE:
+	@echo "\n---------- Configuring libnl ----------"
+	-[ ! -f libnl-3.2.25/Makefile ] && cd libnl-3.2.25 && ./configure --host=armv8-rpi3-linux-gnueabihf --prefix=`pwd`/install 
 
 LIBNL_CLEAN:
 	@echo "\n---------- Cleaning libnl ----------"
@@ -78,39 +83,50 @@ LIBNL_CLEAN:
 
 
 IW: LIBNL
-	@echo "\n---------- Building libnl ----------"
+	@echo "\n---------- Building iw ----------"
 	export PKG_CONFIG_PATH=`pwd`/libnl-3.2.25/install/lib/pkgconfig && export CC=${CROSS_COMPILE}gcc && $(MAKE) -C iw-5.4 -j6
 
 IW_CLEAN:
-	@echo "\n---------- Cleaning libnl ----------"
+	@echo "\n---------- Cleaning iw ----------"
 	-cd iw-5.4 && rm -f iw *.o *~ *.gz version.c *-stamp nl80211-commands.inc
 	# export PKG_CONFIG_PATH=`pwd`/libnl-3.2.25/install/lib/pkgconfig && export CC=${CROSS_COMPILE}gcc && $(MAKE) -C iw-5.4 clean
 	# We manually rm the files rather than calling make clean because the latter requires the libnl pkgconfig to exist, which won't exist if libnl was cleaned first
 
 
 
-OPENSSL:
+OPENSSL: OPENSSL_CONFIGURE
 	@echo "\n---------- Building Openssl ----------"
-	cd openssl-1.1.1g && ./Configure ARCH=arm CROSS_COMPILE=${CROSS_COMPILE} linux-generic32 --prefix=`pwd`/install
 	$(MAKE) -C openssl-1.1.1g -j6
-	$(MAKE) -C openssl-1.1.1g install
+	-[ ! -d openssl-1.1.1g/install ] && $(MAKE) -C openssl-1.1.1g install
+
+OPENSSL_CONFIGURE:
+	@echo "\n---------- Configuring Openssl ----------"
+	-[ ! -f openssl-1.1.1g/Makefile ] && cd openssl-1.1.1g && ./Configure ARCH=arm CROSS_COMPILE=${CROSS_COMPILE} linux-generic32 --prefix=`pwd`/install
 
 OPENSSL_CLEAN:
 	@echo "\n---------- Cleaning Openssl ----------"
 	-rm -rf openssl-1.1.1g/install
 	-$(MAKE) -C openssl-1.1.1g distclean
 
+#exporting these because they are neededto build and clean WPA_SUPPLICANT
 export OPENSSL_INCLUDE_PATH=${CURDIR}/openssl-1.1.1g/install/include
 export OPENSSL_LIB_PATH=${CURDIR}/openssl-1.1.1g/install/lib
 export LIBNL_INCLUDE_PATH=${CURDIR}/libnl-3.2.25/install/include
 export LIBNL_LIB_PATH=${CURDIR}/libnl-3.2.25/install/lib 
 
 
-WPA_SUPPLICANT: #OPENSSL LIBNL
+WPA_SUPPLICANT: OPENSSL LIBNL WPA_SUPPLICANT_CONFIGURE
 	@echo "\n---------- Building wpa_supplicant ----------"
-	\cp scripts/.wpa_supplicant_config wpa_supplicant-2.9/wpa_supplicant/.config
 	export PKG_CONFIG_PATH=${CURDIR}/libnl-3.2.25/install/lib/pkgconfig && $(MAKE) CC=${CROSS_COMPILE}gcc -C wpa_supplicant-2.9/wpa_supplicant -j6 
+
+# Although .config isn't used to generate new files, like what autoconf does, b/c it's included by wpa_supplicant's Makefile,
+# if its timestamp changes, that causes the Makefile to execute thru all the build again. As a result, if .config already 
+# exists, then don't copy the one from scripts/ over 
+WPA_SUPPLICANT_CONFIGURE: 
+	@echo "\n---------- Configure wpa_supplicant ----------"
+	-[ ! -f wpa_supplicant-2.9/wpa_supplicant/.config ] && \cp scripts/.wpa_supplicant_config wpa_supplicant-2.9/wpa_supplicant/.config
 
 WPA_SUPPLICANT_CLEAN:
 	@echo "\n---------- Cleaning wpa_supplicant ----------"
+	-rm wpa_supplicant-2.9/wpa_supplicant/.config
 	-$(MAKE) -C wpa_supplicant-2.9/wpa_supplicant clean
