@@ -21,3 +21,5 @@ openssl-1.1.1g/
 libnl-3.2.25/
 
 wpa_supplicant-2.9/
+
+rootfs/
