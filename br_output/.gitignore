@@ -1,0 +1,7 @@
+..config.tmp
+.config.old
+build/
+host/
+images/
+staging
+target/
