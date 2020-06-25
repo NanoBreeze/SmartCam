@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Set up filesystems
+[ -d /dev ] || mkdir -m 0755 /dev
+mount -t devtmpfs none /dev || true
+
+[ -d /sys ] || mkdir /sys 
+mount -t sysfs none /sys || true
+
+[ -d /proc ] || mkdir /proc
+mount -t proc none /proc || true
+
+[ -d /dev/pts ] || mkdir /dev/pts
+mount devpts /dev/pts -t devpts || true
+
+# Create root user, passwd and username are both root. Its home directory is /root
+[ -d /root ] || mkdir /root
+echo root:x:0:0:root:/root:/bin/sh > /etc/passwd
+echo root:root | chpasswd
+
+# Run syslogd running
+[ -d /var/log ] || mkdir -p /var/log # /var/log/messages is where syslogd stores its messages
+syslogd
+
+# Run telnetd
+telnetd
+
+# Run dropbear
+[ -d /etc/dropbear ] || mkdir -p /etc/dropbear
+[ -f /etc/dropbear/dropbear_banner.txt ] || echo "Welcome to smartcam!" >> /etc/dropbear/dropbear_banner.txt #Create default banner
+dropbear -R -b /etc/dropbear/dropbear_banner.txt
+
+# Add Google's DNS server to resolv.conf
+[ -f /etc/resolv.conf ] || echo nameserver 8.8.8.8 > /etc/resolv.conf
+
+# Run ntpd and provide servers in config file if it doesn't exist
+[ -f /etc/ntp.conf ] || echo -e "server 0.ca.pool.ntp.org\nserver 1.ca.pool.ntp.org\nserver 2.ca.pool.ntp.org\nserver 3.ca.pool.ntp.org" > /etc/ntp.conf
+ntpd
+
+# Load brcmfmac (wifi module), start wpa_supplicant and get IP address for wlan0
+echo "About to load brcmfmac driver"
+modprobe brcmfmac
+[ -d /var/wpa_supplicant ] || mkdir -p /var/wpa_supplicant # used as the control interface
+echo "About to call wpa_supplicant"
+wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf -s -K
+echo "About to use DHCP to set ipaddr and subnet mask for wlan0"
+udhcpc -i wlan0 -v
+
+echo "rcS complete!"
