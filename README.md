@@ -1,6 +1,6 @@
-#SmartCam
+# SmartCam
 
-##BSP
+## BSP
 The board support packages include u-boot, the device tree binary, and the RPi kernel.
 
 I added some small customizations to u-boot helps speed up development, such as custom commands for choosing whether to boot the kernel from SD card vs TFTP, new environment variables to represent longer commands, and an extended autoboot wait time. Eg)
@@ -20,17 +20,17 @@ The DTB (`bcm2710-rpi-3-b.dtb`) does not contain any customizations and is ident
 The kernel is the RPi's downstream kernel and it is on v5.4.40 (latest and greatest, right ;p). Nothing was changed other than modifying its name to include my name, so as to avoid accidentally mixing up kernels during testing. I did try to use the mainline kernel and it booted fine, but eth0 wasn't detected by sysfs. Yeahhh, spooky...
 
 
-##Toolchain 
+## Toolchain 
 The toolchain was built with crosstool-NG and is located in `tools/armv8-rpi3-linux-gnueabihf`. It contains everything needed to cross-build binaries for RPi. It also includes debugging tools like strace and gdbserver. 
 
 > NOTE: although the RPi 3 supports 64-bit instructions (since ARM Cortex-A53 supports ARMv8), the toolchain builds for 32-bit. This is partly because the Rpi only has 1GB of RAM so an extended address space doesn't improve much. But more importantly, to facilitate debugging, if a 32-bit application breaks, as a last resort, I could always run it against Raspbian, which is 32-bit, to figure out the problem. However, if a 64-bit application breaks, it's more tricky to figure out if the problem is with the application itself, a wrong configuration with the toolchain,  missing dependency libraries, or a combination of the three.
 
 
-##Initramfs
+## Initramfs
 The initramfs is built outside of the kernel tree. U-boot passes it (wrapped in a uboot header) to the kernel. This initramfs is very simple: it's basically a static BusyBox binary. And the /init script simply mounts devtmpfs, procfs, and sysfs, uses DHCP to bring up eth0, and then mounts the root filesystem over NFS.
 
 
-##Root Filesystem
+## Root Filesystem
 To create the rootfs, I first used explicit Make commands. Some important components include wpa_supplicant, which enables the device to connect to Wifi, dropbear, BusyBox, system libraries created from crosstool-NG, firmware modules, and configuration scripts. 
 
 Later, I switched to using Buildroot, which made life easier. The one drawback was to manually `$chmod 755` the BusyBox binary created by Buildroot before putting it into the NFS directory.
