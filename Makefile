@@ -118,6 +118,7 @@ export LIBNL_LIB_PATH=${CURDIR}/libnl-3.2.25/install/lib
 WPA_SUPPLICANT: OPENSSL LIBNL WPA_SUPPLICANT_CONFIGURE
 	@echo "\n---------- Building wpa_supplicant ----------"
 	export PKG_CONFIG_PATH=${CURDIR}/libnl-3.2.25/install/lib/pkgconfig && $(MAKE) CC=${CROSS_COMPILE}gcc -C wpa_supplicant-2.9/wpa_supplicant -j6 
+	#export PKG_CONFIG_PATH=${CURDIR}/libnl-3.2.25/install/lib/pkgconfig && $(MAKE) CC=${CROSS_COMPILE}gcc -C wpa_supplicant-2.9/wpa_supplicant libwpa_client.so -j6 
 
 # Although .config isn't used to generate new files, like what autoconf does, b/c it's included by wpa_supplicant's Makefile,
 # if its timestamp changes, that causes the Makefile to execute thru all the build again. As a result, if .config already 
