@@ -23,3 +23,5 @@ libnl-3.2.25/
 wpa_supplicant-2.9/
 
 rootfs/
+
+src/wifi*.o
