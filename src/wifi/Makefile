@@ -1,6 +1,6 @@
 
 .PHONY: clean all
-SRCS = main.c 
+SRCS = main.cpp
 CXXFLAGS+= -g
 CXXFLAGS+= -I../../wpa_supplicant-2.9/src/common 
 CXXFLAGS+= -I../../wpa_supplicant-2.9/src/utils
