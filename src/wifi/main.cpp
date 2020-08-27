@@ -1,3 +1,8 @@
+/* This file could do with some refactoring, especially by extracting many wpa_ctrl_request 
+ * calls into a generic function. 
+ * We can also attach to intercept/read control event messages
+ */
+
 #include <stddef.h>
 #include "wpa_ctrl.h"
 #include <iostream>
@@ -34,6 +39,21 @@ namespace Command{
 	const string SET_NETWORK_PASSWORD(int id, string password) {
 		return string("SET_NETWORK ") + to_string(id) + " password " + "\"" + password + "\""; 
 	}
+	const string SET_NETWORK_PSK(int id, string psk) {
+		return string("SET_NETWORK ") + to_string(id) + " psk " + "\"" + psk + "\""; 
+	}
+	const string SET_NETWORK_SSID(int id, string ssid) {
+		return string("SET_NETWORK ") + to_string(id) + " ssid " + "\"" + ssid + "\"";
+	}
+	const char* DISCONNECT = "DISCONNECT";
+	const char* REASSOCIATE = "REASSOCIATE";
+	const char* ADD_NETWORK = "ADD_NETWORK";
+	const string SELECT_NETWORK(int id) {
+		return string("SELECT_NETWORK ") + to_string(id);
+	}
+	const string ENABLE_NETWORK(int id) {
+		return string("ENABLE_NETWORK ") + to_string(id);
+	}
 };
 
 enum class ErrorCode {
@@ -44,7 +64,13 @@ enum class ErrorCode {
 	REMOVE_NETWORK,
 	SAVE_CONFIG,
 	RECONFIGURE,
-	SET_NETWORK_PASSWORD
+	SET_NETWORK_PASSWORD,
+	DISCONNECT,
+	REASSOCIATE,
+	SELECT_NETWORK,
+	SET_NETWORK_SSID,
+	ADD_NETWORK,
+	ENABLE_NETWORK
 };
 
 struct NetworkConf {
@@ -134,17 +160,6 @@ vector<NetworkConf> listAllNetworksInConf(struct wpa_ctrl* control) {
 	return networkConfs;
 }
 
-bool connect(struct wpa_ctrl* control, string ssid, string password) {
-	/* We first check if the network is already listed in the conf
-	 * If it is, change its password with the new password
-	 * Then connect
-	 */
-}
-
-bool connect(struct wpa_ctrl* control, string ssid) {
-	
-}
-
 bool changePassword(struct wpa_ctrl* control, string ssid, string password) {
 	/* The ssid must exist. If it doesn't, then no new network will
 	 * be added, and we shall return false
@@ -159,12 +174,17 @@ bool changePassword(struct wpa_ctrl* control, string ssid, string password) {
 		
 	char reply[1] = {0};
 	size_t replySz = sizeof(reply);
-	cout << "The whole command is: " << Command::SET_NETWORK_PASSWORD(it->id, password) << endl;
 	int ret = wpa_ctrl_request(control, Command::SET_NETWORK_PASSWORD(it->id, password).c_str(), Command::SET_NETWORK_PASSWORD(it->id, password).size(), reply, &replySz, NULL);
 	if (ret != 0) {
 		cerr << "Problem with changing password: " << it->ssid << endl;
 		throw ErrorCode::SET_NETWORK_PASSWORD;
-	}
+	 }
+	 
+	 ret = wpa_ctrl_request(control, Command::SET_NETWORK_PSK(it->id, password).c_str(), Command::SET_NETWORK_PSK(it->id, password).size(), reply, &replySz, NULL);
+	 if (ret != 0) {
+		cerr << "Problem with setting ssid: " << ssid << endl;
+		throw ErrorCode::SET_NETWORK_PASSWORD;
+	 }
 	
 	ret = wpa_ctrl_request(control, Command::SAVE_CONFIG, strlen(Command::SAVE_CONFIG), reply, &replySz, NULL);
 	if (ret != 0) {
@@ -173,6 +193,85 @@ bool changePassword(struct wpa_ctrl* control, string ssid, string password) {
 	}
 		
 	return true;
+}
+
+void connect(struct wpa_ctrl* control, string ssid, string password) {
+	/* We first check if the network is already listed in the conf
+	 * If it is, change its password with the new password
+	 * Then connect
+	 */
+	 if (changePassword(control, ssid, password)) {
+		return;
+	 }
+	 
+	 char reply[10] = {0};
+	 size_t replySz = sizeof(reply);
+	 int ret = wpa_ctrl_request(control, Command::ADD_NETWORK, strlen(Command::ADD_NETWORK), reply, &replySz, NULL);
+	 if (ret != 0) {
+		cerr << "Problem with changing password: " << ssid << endl;
+		throw ErrorCode::ADD_NETWORK;
+	 }
+	 
+	 int networkId = atoi(reply);
+	 cout << "The networkId is: " << networkId << endl;
+	 	
+	 ret = wpa_ctrl_request(control, Command::SET_NETWORK_SSID(networkId, ssid).c_str(), Command::SET_NETWORK_SSID(networkId, ssid).size(), reply, &replySz, NULL);
+	 if (ret != 0) {
+		cerr << "Problem with setting ssid: " << ssid << endl;
+		throw ErrorCode::SET_NETWORK_SSID;
+	 }
+
+	 changePassword(control, ssid, password);
+	 
+	 ret = wpa_ctrl_request(control, Command::ENABLE_NETWORK(networkId).c_str(), Command::ENABLE_NETWORK(networkId).size(), reply, &replySz, NULL);
+	 if (ret != 0) {
+		cerr << "Problem with enabling network config" << endl;
+		throw ErrorCode::ENABLE_NETWORK;
+	 }
+	 
+	 	 
+	 ret = wpa_ctrl_request(control, Command::SAVE_CONFIG, strlen(Command::SAVE_CONFIG), reply, &replySz, NULL);
+	 if (ret != 0) {
+		cerr << "Problem with saving config" << endl;
+		throw ErrorCode::SAVE_CONFIG;
+	 }
+}
+
+bool connect(struct wpa_ctrl* control, string ssid) {
+	// Return false if the ssid doesn't exist
+	vector<NetworkConf> networkConfs = listAllNetworksInConf(control);
+	auto it = std::find_if(begin(networkConfs), end(networkConfs), [&ssid](const NetworkConf& m) {
+		return m.ssid == ssid;
+	});
+	
+	if (it == end(networkConfs))
+		return false;
+		
+	char reply[1] = {0};
+	size_t replySz = sizeof(reply);
+	
+	int ret = wpa_ctrl_request(control, Command::SELECT_NETWORK(it->id).c_str(), Command::SELECT_NETWORK(it->id).size(), reply, &replySz, NULL);
+	if (ret != 0) {
+		cerr << "Problem with selecting network " << it->id << endl;;
+		throw ErrorCode::SELECT_NETWORK;
+	}
+	
+	ret = wpa_ctrl_request(control, Command::REASSOCIATE, strlen(Command::REASSOCIATE), reply, &replySz, NULL);
+	if (ret != 0) {
+		cerr << "Problem with reassociate" << endl;;
+		throw ErrorCode::REASSOCIATE;
+	}
+	return true;
+}
+
+void disassociate(struct wpa_ctrl* control) {
+	char reply[1] = {0};
+	size_t replySz = sizeof(reply);
+	int ret = wpa_ctrl_request(control, Command::DISCONNECT, strlen(Command::DISCONNECT), reply, &replySz, NULL);
+	if (ret != 0) {
+		cerr << "Problem with disconnecting" << endl;;
+		throw ErrorCode::DISCONNECT;
+	}
 }
 
 void reloadConf(struct wpa_ctrl* control) {
@@ -242,6 +341,9 @@ int main() {
 	vector<NetworkConf> networkConfs = listAllNetworksInConf(control); 
 	cout << "networkConfs.size() is: " << networkConfs.size() << endl;
 	*/
+	reloadConf(control);
+	connect(control, "bloop", "blah");
+	//cout << here << endl;
 	
 	
 	return 0;
